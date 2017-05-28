@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Lending Widget</string>
+    <string name="configure">Configure</string>
+    <string name="connect">Connect</string>
+    <string name="log_url">URL of botlog.json</string>
+    <string name="example_url">www.example.com/botlog.json</string>
+    <string name="error_connection">An error occured while trying to connect to %1$s</string>
+</resources>
