@@ -10,6 +10,9 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.support.v4.content.LocalBroadcastManager
+import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
+import android.view.Menu
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -20,7 +23,9 @@ import com.artem.lendingwidget.extensions.getUrl
 import com.artem.lendingwidget.extensions.storeUrl
 import com.artem.lendingwidget.network.LendingNetworkService
 
-class LendingWidgetConfigureActivity : Activity() {
+
+
+class LendingWidgetConfigureActivity : AppCompatActivity() {
     internal var mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
     internal lateinit var mUrlEditText: EditText
     internal lateinit var mConnectButton: Button
@@ -37,8 +42,9 @@ class LendingWidgetConfigureActivity : Activity() {
         // Set the result to CANCELED.  This will cause the widget host to cancel
         // out of the widget placement if the user presses the back button.
         setResult(Activity.RESULT_CANCELED)
-
         setContentView(R.layout.lending_widget_configure)
+        setSupportActionBar(findViewById(R.id.toolbar_config) as Toolbar?)
+
         mUrlEditText = findViewById(R.id.et_url) as EditText
         mConnectButton = findViewById(R.id.btn_connect) as Button
         mProgressBar = findViewById(R.id.progressBar) as ProgressBar
@@ -59,6 +65,11 @@ class LendingWidgetConfigureActivity : Activity() {
 
         var url = this.getUrl(mAppWidgetId)
         mUrlEditText.setText(url)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.config_menu, menu)
+        return true
     }
 
     private fun toggleViews(active: Boolean) {
