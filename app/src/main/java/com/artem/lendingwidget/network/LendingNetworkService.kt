@@ -8,10 +8,7 @@ import android.support.v4.content.LocalBroadcastManager
 import com.artem.lendingwidget.LendingWidgetUI
 import com.artem.lendingwidget.data.Botlog
 import com.artem.lendingwidget.data.CoinDeskRate
-import com.artem.lendingwidget.extensions.getCurrency
-import com.artem.lendingwidget.extensions.getUrl
-import com.artem.lendingwidget.extensions.storeBotlog
-import com.artem.lendingwidget.extensions.storeCoinDeskRate
+import com.artem.lendingwidget.extensions.*
 import com.github.salomonbrys.kotson.fromJson
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -37,6 +34,10 @@ class LendingNetworkService : IntentService("LendingNetworkService") {
         if (intent != null) {
             val notify = intent.getBooleanExtra(EXTRA_NOTIFY, false)
             val widgetId = intent.getIntExtra(EXTRA_WIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
+            if (widgetId == AppWidgetManager.INVALID_APPWIDGET_ID || this.getUrl(widgetId).isBlank()) {
+                return
+            }
+
             lendingWidgetUI = LendingWidgetUI(this, AppWidgetManager.getInstance(this), widgetId)
             when (intent.action) {
                 ACTION_BOTLOG -> handleActionBotlog(notify,widgetId)
@@ -47,12 +48,13 @@ class LendingNetworkService : IntentService("LendingNetworkService") {
 
     private fun handleActionBotlog(notify: Boolean, widgetId: Int) {
         val result = try {
-            // TODO handle http/https
+            // TODO handle https
             val url = URL("http://${this.getUrl(widgetId)}")
             val reader: BufferedReader = BufferedReader(InputStreamReader(url.openStream()))
             val gson = GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create()
             gson.fromJson<Botlog>(reader)
         } catch (e: Exception) {
+            this.logError(e)
             e.printStackTrace()
             null
         }
@@ -73,6 +75,7 @@ class LendingNetworkService : IntentService("LendingNetworkService") {
             val reader: BufferedReader = BufferedReader(InputStreamReader(url.openStream()))
             Gson().fromJson<CoinDeskRate>(reader)
         } catch (e: Exception) {
+            this.logError(e)
             e.printStackTrace()
             null
         }

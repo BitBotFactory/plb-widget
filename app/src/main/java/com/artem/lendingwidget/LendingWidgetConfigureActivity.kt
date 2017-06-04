@@ -13,12 +13,12 @@ import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
-import com.artem.lendingwidget.extensions.deleteWidgetData
 import com.artem.lendingwidget.extensions.getUrl
 import com.artem.lendingwidget.extensions.storeUrl
 import com.artem.lendingwidget.network.LendingNetworkService
@@ -72,6 +72,17 @@ class LendingWidgetConfigureActivity : AppCompatActivity() {
         return true
     }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when (item!!.itemId) {
+            R.id.item_error_log -> {
+                val intent = Intent(this@LendingWidgetConfigureActivity, ErrorLogActivity::class.java)
+                startActivity(intent)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     private fun toggleViews(active: Boolean) {
         if (active) {
             mUrlEditText.isEnabled = true
@@ -89,6 +100,9 @@ class LendingWidgetConfigureActivity : AppCompatActivity() {
 
         // TODO handle https
         var url = mUrlEditText.text.toString()
+        if (url.isBlank()) {
+            return
+        }
         if (url.startsWith("http://")) {
             url = url.substring(7)
         }
@@ -119,7 +133,6 @@ class LendingWidgetConfigureActivity : AppCompatActivity() {
             this.finish()
         } else {
             Toast.makeText(this, getString(R.string.error_connection, mUrlEditText.text), Toast.LENGTH_LONG).show()
-            this.deleteWidgetData(mAppWidgetId)
         }
     }
 

@@ -26,6 +26,10 @@
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
             </intent-filter>
         </activity>
+        <activity android:name=".ErrorLogActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                       android:value=".LendingWidgetConfigureActivity" />
+        </activity>
 
         <service
             android:name="com.artem.lendingwidget.network.LendingNetworkService"
