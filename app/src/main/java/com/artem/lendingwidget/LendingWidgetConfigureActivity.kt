@@ -15,6 +15,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
+import com.artem.lendingwidget.extensions.deleteWidgetData
 import com.artem.lendingwidget.extensions.getUrl
 import com.artem.lendingwidget.extensions.storeUrl
 import com.artem.lendingwidget.network.LendingNetworkService
@@ -75,8 +76,12 @@ class LendingWidgetConfigureActivity : Activity() {
     internal fun tryConnection() {
         toggleViews(false)
 
-        // TODO handle http/https
-        this.storeUrl("${mUrlEditText.text}", mAppWidgetId)
+        // TODO handle https
+        var url = mUrlEditText.text.toString()
+        if (url.startsWith("http://")) {
+            url = url.substring(7)
+        }
+        this.storeUrl("${url}", mAppWidgetId)
         LendingNetworkService.updateBotlog(this, true, mAppWidgetId)
         LendingNetworkService.updateBpi(this, false, mAppWidgetId)
     }
@@ -103,6 +108,7 @@ class LendingWidgetConfigureActivity : Activity() {
             this.finish()
         } else {
             Toast.makeText(this, getString(R.string.error_connection, mUrlEditText.text), Toast.LENGTH_LONG).show()
+            this.deleteWidgetData(mAppWidgetId)
         }
     }
 

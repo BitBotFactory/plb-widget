@@ -9,9 +9,9 @@
         android:id="@+id/tv_last_update"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/linearLayout3"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         android:text="(last update 0.0.0000 00:00)"
         android:textSize="12sp"/>
 
@@ -70,7 +70,8 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/linearLayout"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:id="@+id/linearLayout3">
 
         <TextView
             android:id="@+id/tv_earnings"
