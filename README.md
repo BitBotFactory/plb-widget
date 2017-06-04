@@ -15,4 +15,7 @@ Check [releases](https://github.com/artemperl/plb-widget/releases) for prebuilt 
 Before you can compile the project you will need to install [Android Studio](https://developer.android.com/studio/preview/index.html). Since the project is developed in Kotlin, you must use Android Studio 3.0 preview or a newer version.  
 After importing the project in Android Studio go to the project root directory and use `./gradlew assemble` to assemble the .apk file for manual installation, or `./gradlew installDebug` while a device is connected to directly install it on the device.
 ## Problems
-If you find a bug or have a feature request, please submit an [issue](https://github.com/artemperl/plb-widget/issues).
+If you find a bug or have a feature request, please submit an [issue](https://github.com/artemperl/plb-widget/issues).  
+## Donation
+If you find this widget useful and want to support its development please consider donating some bitcoins to: 1FcBTURBbMGHdLcaEJJX1q13wPR1xMsR4J  
+Consider also a donation to the developers of [the poloniex lending bot](https://github.com/BitBotFactory/poloniexlendingbot) for their amazing work.
