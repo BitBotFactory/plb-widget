@@ -15,11 +15,11 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.Toast
+import android.widget.*
+import com.artem.lendingwidget.data.Currency
+import com.artem.lendingwidget.extensions.getCurrency
 import com.artem.lendingwidget.extensions.getUrl
+import com.artem.lendingwidget.extensions.storeTargetCurrency
 import com.artem.lendingwidget.extensions.storeUrl
 import com.artem.lendingwidget.network.LendingNetworkService
 
@@ -30,11 +30,22 @@ class LendingWidgetConfigureActivity : AppCompatActivity() {
     internal lateinit var mUrlEditText: EditText
     internal lateinit var mConnectButton: Button
     internal lateinit var mProgressBar: ProgressBar
+    internal lateinit var mTargetSpinner: Spinner
 
     internal val mBroadCastReceiver = object: BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
            this@LendingWidgetConfigureActivity.onReceive(context, intent)
         }
+    }
+    internal val mSpinnerSelectedListener = object : AdapterView.OnItemSelectedListener {
+        override fun onNothingSelected(p0: AdapterView<*>?) {
+        }
+
+        override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+            this@LendingWidgetConfigureActivity.storeTargetCurrency(mAppWidgetId, Currency.values()[p2].name)
+            LendingNetworkService.updateBpi(this@LendingWidgetConfigureActivity, false, mAppWidgetId)
+        }
+
     }
 
     public override fun onCreate(icicle: Bundle?) {
@@ -45,20 +56,24 @@ class LendingWidgetConfigureActivity : AppCompatActivity() {
         setContentView(R.layout.lending_widget_configure)
         setSupportActionBar(findViewById(R.id.toolbar_config) as Toolbar?)
 
-        mUrlEditText = findViewById(R.id.et_url) as EditText
-        mConnectButton = findViewById(R.id.btn_connect) as Button
-        mProgressBar = findViewById(R.id.progressBar) as ProgressBar
-
-
         val extras = intent.extras
         if (extras != null) {
             mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
         }
-
         if (mAppWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
             finish()
             return
         }
+
+        mUrlEditText = findViewById(R.id.et_url) as EditText
+        mConnectButton = findViewById(R.id.btn_connect) as Button
+        mProgressBar = findViewById(R.id.progressBar) as ProgressBar
+        mTargetSpinner = findViewById(R.id.spinner_target_currency) as Spinner
+
+        mTargetSpinner.adapter = ArrayAdapter<Currency>(this, android.R.layout.select_dialog_item, Currency.values())
+        mTargetSpinner.setSelection(this.getCurrency(mAppWidgetId).ordinal)
+        mTargetSpinner.onItemSelectedListener = mSpinnerSelectedListener
+
 
         mConnectButton.setOnClickListener { tryConnection()}
         LocalBroadcastManager.getInstance(this).registerReceiver(mBroadCastReceiver, IntentFilter(LendingNetworkService.ACTION_RESULT))

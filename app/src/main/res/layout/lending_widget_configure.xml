@@ -20,7 +20,19 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-    <TextView
+        <TextView
+            android:id="@+id/tv_spinner_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/target_spinner_title"/>
+
+        <Spinner
+            android:id="@+id/spinner_target_currency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dialog"/>
+
+        <TextView
         android:id="@+id/tv_url"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

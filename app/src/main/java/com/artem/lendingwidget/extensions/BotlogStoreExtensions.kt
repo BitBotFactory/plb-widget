@@ -46,6 +46,8 @@ fun Context.storeCoinDeskRate(coinDeskRate: CoinDeskRate, widgetId: Int) {
     val edit = prefs.edit()
     val currency = this.getCurrency(widgetId)
 
+    coinDeskRate.bpi[currency] ?: return
+
     edit.putFloat(PREF_BPI_VALUE + widgetId, coinDeskRate.bpi[currency]!!.rate_float)
     edit.apply()
 }
@@ -70,6 +72,14 @@ fun Context.getCryptoCurrency(widgetId: Int): CryptoCurrency {
 
 fun Context.getCurrency(widgetId: Int): Currency {
     return Currency.valueOf(this.getSharedPreferences(PREFS_NAME, 0).getString(PREF_TARGET_CURRENCY + widgetId, "EUR"))
+}
+
+fun Context.storeTargetCurrency(widgetId: Int, currency: String) {
+    val prefs = this.getSharedPreferences(PREFS_NAME, 0)
+    val edit = prefs.edit()
+
+    edit.putString(PREF_TARGET_CURRENCY + widgetId, currency)
+    edit.apply()
 }
 
 fun Context.getUrl(widgetId: Int): String {

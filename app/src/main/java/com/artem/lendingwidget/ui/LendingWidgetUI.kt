@@ -1,9 +1,11 @@
-package com.artem.lendingwidget
+package com.artem.lendingwidget.ui
 
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.text.format.DateFormat
 import android.widget.RemoteViews
+import com.artem.lendingwidget.LendingWidgetConfigureActivity
+import com.artem.lendingwidget.R
 import com.artem.lendingwidget.extensions.*
 import java.util.*
 

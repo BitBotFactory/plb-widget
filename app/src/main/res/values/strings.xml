@@ -6,4 +6,5 @@
     <string name="example_url">www.example.com/botlog.json</string>
     <string name="error_connection">An error occured while trying to connect to %1$s</string>
     <string name="error_log">Error log</string>
+    <string name="target_spinner_title">Conversion currency</string>
 </resources>
