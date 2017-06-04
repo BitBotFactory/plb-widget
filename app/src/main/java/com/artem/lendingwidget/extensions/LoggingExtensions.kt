@@ -4,6 +4,7 @@ import android.content.Context
 import java.io.File
 import java.io.FileWriter
 import java.io.PrintWriter
+import java.util.*
 
 private const val ERROR_LOG_FILE = "errors.txt"
 private const val DEFAULT_MAX_LINES = 1000
@@ -14,6 +15,7 @@ fun Context.logError(e: Throwable) {
 
     val writer = PrintWriter(FileWriter(errorLog, true))
     writer.appendln(SEPERATOR)
+    writer.appendln(Date(System.currentTimeMillis()).toString())
     e.printStackTrace(writer)
     writer.close()
 
