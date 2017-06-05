@@ -111,13 +111,15 @@ class LendingWidgetConfigureActivity : AppCompatActivity() {
     }
 
     internal fun tryConnection() {
-        toggleViews(false)
 
         // TODO handle https
         var url = mUrlEditText.text.toString()
         if (url.isBlank()) {
+            Toast.makeText(this, getString(R.string.error_blank_url, mUrlEditText.text), Toast.LENGTH_LONG).show()
             return
         }
+
+        toggleViews(false)
         if (url.toLowerCase().startsWith("http://")) {
             url = url.substring(7)
         }
