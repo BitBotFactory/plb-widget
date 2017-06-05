@@ -3,7 +3,6 @@ package com.artem.lendingwidget.extensions
 import android.content.Context
 import com.artem.lendingwidget.data.Botlog
 import com.artem.lendingwidget.data.CoinDeskRate
-import com.artem.lendingwidget.data.CryptoCurrency
 import com.artem.lendingwidget.data.Currency
 import com.github.salomonbrys.kotson.fromJson
 import com.google.gson.Gson
@@ -66,8 +65,8 @@ fun Context.getBotlog(widgetId: Int): Botlog? {
     }
 }
 
-fun Context.getCryptoCurrency(widgetId: Int): CryptoCurrency {
-    return CryptoCurrency.valueOf(this.getSharedPreferences(PREFS_NAME, 0).getString(PREF_CRYPTO_CURRENCY + widgetId, "BTC"))
+fun Context.getCryptoCurrency(widgetId: Int): String {
+    return this.getSharedPreferences(PREFS_NAME, 0).getString(PREF_CRYPTO_CURRENCY + widgetId, "BTC")
 }
 
 fun Context.getCurrency(widgetId: Int): Currency {

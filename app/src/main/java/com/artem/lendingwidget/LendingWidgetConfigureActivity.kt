@@ -118,7 +118,7 @@ class LendingWidgetConfigureActivity : AppCompatActivity() {
         if (url.isBlank()) {
             return
         }
-        if (url.startsWith("http://")) {
+        if (url.toLowerCase().startsWith("http://")) {
             url = url.substring(7)
         }
         this.storeUrl("${url}", mAppWidgetId)
